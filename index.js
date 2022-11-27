@@ -9,9 +9,16 @@ const clearText = (text) => {
   const newText = text.replace(/(\-)/g, "").replace(/(\s+)/g, "-");
   return newText;
 };
-files.forEach((fileName) => {
-  const image = sharp(`${inputDir}/${fileName}`);
-  const refactorName = clearText(fileName);
-  const name = refactorName.replace(/\.(png|jpg|jpeg|gif|svg)$/, ".webp");
-  image.webp({ quality: 80 }).toFile(`${outputDir}/${name}`);
-});
+const main = async () => {
+  if (!fs.existsSync(`${dir}/output-images`)) {
+    fs.mkdirSync(outputDir);
+  }
+  files.forEach((fileName) => {
+    const image = sharp(`${inputDir}/${fileName}`);
+    const refactorName = clearText(fileName);
+    const name = refactorName.replace(/\.(png|jpg|jpeg|gif|svg)$/, ".webp");
+    image.webp({ quality: 80 }).toFile(`${outputDir}/${name}`);
+  });
+};
+
+main();
